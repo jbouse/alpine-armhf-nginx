@@ -2,8 +2,8 @@ FROM jtbouse/alpine-armhf
 
 MAINTAINER Jeremy T. Bouse <Jeremy.Bouse@UnderGrid.net>
 
-RUN docker-build-start \
-	&& apk add --no-cache nginx \
+RUN ["docker-build-start"]
+RUN apk add --no-cache nginx \
 	# Bring in gettext so we can get `envsubst`, then throw
 	# the rest away. To do this, we need to install `gettext`
 	# then move `envsubst` out of the way so `gettext` can
@@ -24,8 +24,8 @@ RUN docker-build-start \
 	\
 	# forward request and error logs to docker log collector
 	&& ln -sf /dev/stdout /var/log/nginx/access.log \
-	&& ln -sf /dev/stderr /var/log/nginx/error.log \
-	&& docker-build-end
+	&& ln -sf /dev/stderr /var/log/nginx/error.log
+RUN ["docker-build-end"]
 
 # COPY nginx.conf /etc/nginx/nginx.conf
 # COPY nginx.vh.default.conf /etc/nginx/conf.d/default.conf
